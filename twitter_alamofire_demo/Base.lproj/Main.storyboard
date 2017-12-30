@@ -242,7 +242,7 @@
                     <navigationItem key="navigationItem" title="Home Timeline" id="kKt-wu-yeW">
                         <barButtonItem key="rightBarButtonItem" title="Logout" id="05m-gF-i2E">
                             <connections>
-                                <action selector="didTapLogout:" destination="Zya-II-AHG" id="sy3-LQ-xBv"/>
+                                <action selector="logoutButtonTapped:" destination="Zya-II-AHG" id="pca-V6-ONM"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
