@@ -7,21 +7,16 @@
 //
 
 import UIKit
-import AFNetworking
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ProfileViewSegueDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
-    func profileImageTapped(user: User) {
-    }
-    
+    @IBOutlet weak var tableView: UITableView!
     
         var tweets: [Tweet] = []
         var refreshControl: UIRefreshControl!
         var tweetMaxId: Int?
         private var isMoreTweetsLoading = false
         var userForSegue: User?
-        
-    @IBOutlet weak var tableView: UITableView!
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
             APIManager.shared.logout()
@@ -37,10 +32,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             refreshControl.addTarget(self, action: #selector(fetchTweets(forInfiniteScroll:)), for: .valueChanged)
             refreshControl.backgroundColor = UIColor.groupTableViewBackground
             tableView.addSubview(refreshControl)
-            
-            self.tabBarController?.tabBar.tintColor = UIColor(colorLiteralRed: 64/255, green: 153/255, blue: 255/255, alpha: 1)
+        
             setNavigationBarButtons()
-            
           
             
             let insets = tableView.contentInset;
@@ -64,11 +57,14 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         func fetchTweets(forInfiniteScroll: Bool) {
-            APIManager.shared.getHomeTimeLine { (tweets:[Tweet]!, error: Error?) in
-                self.isMoreTweetsLoading = false
-                self.tweets = forInfiniteScroll ? self.tweets + tweets : tweets
+            APIManager.shared.getHomeTimeLine { (tweets, error) in
+                if let tweets = tweets {
+                    self.tweets = tweets
+                    self.tableView.reloadData()
+                } else if let error = error {
+                    print("Error getting home timeline: " + error.localizedDescription)
+                }
                 self.refreshControl.endRefreshing()
-                self.tableView.reloadData()
             }
           
         }
@@ -78,7 +74,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             let composeButton = UIBarButtonItem(image: composeImage, style: .plain, target: self, action: #selector(composeButtonTapped(sender:)))
             
             self.navigationController?.navigationBar.barTintColor = UIColor.white
-            self.navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 64/255, green: 153/255, blue: 255/255, alpha: 1)
+
             self.navigationController?.navigationBar.isTranslucent = false
 
             self.navigationItem.leftBarButtonItem = composeButton
@@ -91,7 +87,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return tweets.count
         }
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
         public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell") as! TweetCell
             let tweet = tweets[indexPath.row]
@@ -104,18 +102,19 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             cell.favoriteCount.text = "\(tweet.favoriteCount)"
             cell.retweetCount.text = "\(tweet.retweetCount)"
             cell.tweet = tweet
-            cell.delegate = self
             
             return cell
         }
     
-        
         override func didReceiveMemoryWarning() {
             super.didReceiveMemoryWarning()
             // Dispose of any resources that can be recreated.
-        }
-        
-        
     }
+}
+extension TimelineViewController: ComposeViewControllerDelegate {
+    func did(post: Tweet) {
+        dismiss(animated: true, completion: nil)
+    }
+}
     
 

@@ -247,7 +247,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="nGr-CK-xO8" id="BCX-7F-UeV"/>
+                        <outlet property="tableView" destination="nGr-CK-xO8" id="IvN-6V-gz5"/>
                         <segue destination="XEN-vd-SKP" kind="presentation" identifier="ComposeTweetSegue" id="cD2-qi-9Fx"/>
                     </connections>
                 </viewController>
@@ -271,20 +271,33 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="227"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" id="3tL-1f-IQ0"/>
+                    <navigationItem key="navigationItem" id="3tL-1f-IQ0">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="EKu-lC-EPA">
+                            <connections>
+                                <action selector="closeButtonTapped:" destination="YkI-eN-ecI" id="hlg-BJ-58H"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="ArF-iy-1oG">
+                            <connections>
+                                <action selector="tweetButtonTapped:" destination="YkI-eN-ecI" id="Bw0-6Y-PDx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="composeTweetView" destination="Vvs-gd-4hF" id="hPR-gf-hnh"/>
+                        <outlet property="composeTextView" destination="Vvs-gd-4hF" id="VFo-di-Tel"/>
+                        <outlet property="tweetButton" destination="ArF-iy-1oG" id="sNw-KT-5XB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mx4-6C-82h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4700" y="-260.41979010494754"/>
+            <point key="canvasLocation" x="4783" y="36"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="FFA-AM-rFF">
@@ -320,7 +333,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2e-nF-9k8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3809" y="-260"/>
+            <point key="canvasLocation" x="3841" y="36"/>
         </scene>
     </scenes>
     <resources>
